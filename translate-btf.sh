@@ -5,14 +5,17 @@
 # переводит выделенный текст с русского на английский или с любого языка на русский
 # и выводит перевод во всплывающем окне, одновременно добавляя его в /tmp/trans.txt
 
-# The script bind to hotkeys translates by pressing them the selected text via translate-shell (https://github.com/soimort/translate-shell) from Russian into English or from any language into Russian and displays the translation in a pop-up window, while adding it to /tmp/trans.txt 
+# The script bind to hotkeys translates by pressing them the selected text 
+# via translate-shell (https://github.com/soimort/translate-shell) 
+# from Russian into English or from any language into Russian 
+# and displays the translation in a pop-up window, while adding it to /tmp/trans.txt 
 
-#Arch based: $ yaourt -S translate-shell libnotify xclip 
+# Arch based depends install: $ yaourt -S translate-shell libnotify xclip 
 
     notify-send -i dialog-question "Ищу перевод..." " "
 
-	TEXT=$(xclip -selection primary -o)
-	IDENT=$(translate-shell -identify "$TEXT" | grep Code | grep ru)
+	TEXT=$(xclip -s p -o)
+	IDENT=$(translate-shell -id "$TEXT" | grep Code | grep ru)
 	
 	if [ "$IDENT" ]; then
 	
@@ -41,5 +44,3 @@
 	    
 	fi
 	
-     
-
