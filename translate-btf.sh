@@ -8,7 +8,7 @@
 # The script bind to hotkeys translates by pressing them the selected text 
 # via translate-shell (https://github.com/soimort/translate-shell) 
 # from Russian into English or from any language into Russian 
-# and displays the translation in a pop-up window, while adding it to /tmp/trans.txt 
+# and displays the translation like a system notification, adding it to /tmp/trans.txt at the same time
 
 # Arch based depends install: $ yaourt -S translate-shell libnotify xclip 
 
