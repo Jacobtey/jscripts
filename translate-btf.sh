@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Сценарий цепляется на горячие клавиши и по их нажатию
+# Сценарий привязывается к горячим клавишам и по их нажатию
 # с помощью translate-shell (https://github.com/soimort/translate-shell)
 # переводит выделенный текст с русского на английский или с любого языка на русский
-# и выводит перевод во всплывающем окне, одновременно добавляя его в /tmp/trans.txt
+# и выводит перевод как системное уведомление, одновременно добавляя его в /tmp/trans.txt
 
 # The script bind to hotkeys translates by pressing them the selected text 
 # via translate-shell (https://github.com/soimort/translate-shell) 
 # from Russian into English or from any language into Russian 
-# and displays the translation like a system notification, adding it to /tmp/trans.txt at the same time
+# and displays the translation like a system notification, 
+# adding it to /tmp/trans.txt at the same time
 
 # Arch based depends install: $ yaourt -S translate-shell libnotify xclip 
 
