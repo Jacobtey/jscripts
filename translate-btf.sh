@@ -1,47 +1,44 @@
 #!/bin/bash
 
-# Сценарий привязывается к горячим клавишам и по их нажатию
-# с помощью translate-shell (https://github.com/soimort/translate-shell)
+# Сценарий с помощью translate-shell (https://github.com/soimort/translate-shell)
 # переводит выделенный текст с русского на английский или с любого языка на русский
-# и выводит перевод как системное уведомление, одновременно добавляя его в /tmp/trans.txt
+# и выводит перевод как системное уведомление, одновременно добавляя его 
+# в накопитель /tmp/trans.txt и буфер обмена
 
-# The script bind to hotkeys translates by pressing them the selected text 
-# via translate-shell (https://github.com/soimort/translate-shell) 
-# from Russian into English or from any language into Russian 
-# and displays the translation like a system notification, 
-# adding it to /tmp/trans.txt at the same time
+# Задать сочетание клавиш на запуск
 
-# Arch based depends install: $ yaourt -S translate-shell libnotify xclip 
+# translate-shell libnotify xclip 
 
-    notify-send -i dialog-question "Ищу перевод..." " "
+ notify-send -i dialog-question -t 2000 "Ищу перевод..." " "
 
-	TEXT=$(xclip -s p -o)
-	IDENT=$(translate-shell -id "$TEXT" | grep Code | grep ru)
+    cp /dev/null $HOME/.trans.txt
+    TEXT=$(xclip -o)
+    IDENT=$(translate-shell -id "$TEXT" | grep Code | grep ru)
 	
 	if [ "$IDENT" ]; then
 	
-	    TRANS=$(translate-shell -b -t en "$TEXT" -output $HOME/.trans.txt)
+    TRANS=$(translate-shell -b -t en "$TEXT" -o $HOME/.trans.txt)
 	
 	else
 	
-	    TRANS=$(translate-shell -b "$TEXT" -output $HOME/.trans.txt)
+    TRANS=$(translate-shell -b "$TEXT" -o $HOME/.trans.txt)
 	
 	fi
 	
-	TRAX=$(cat $HOME/.trans.txt)
-	TRAN=$(echo -e "$TRAX \n" >> /tmp/trans.txt)
-
-	cp /dev/null $HOME/.trans.txt
 	$TRANS
-	
+
+    TRAX=$(cat $HOME/.trans.txt)
+
 	if [ "$TRAX" ]; then
 	  
-	   notify-send -i dialog-information "ПЕРЕВОД:" "$TRAX"
-	   $TRAN
+notify-send -i dialog-information "ПЕРЕВОД:" "$TRAX"
+	
+	echo -e "$TRAX \n" >> /tmp/trans.txt
+	xclip -i $HOME/.trans.txt -selection clipboard
 	   	   
 	else
 	
-	    notify-send -i dialog-error -t 7000 "ОШИБКА: Сервис не доступен" "Отсутствует подключение к интернету или выделена пустая строка"
+notify-send -i dialog-error -t 7000 "ОШИБКА: Отсутствует перевод" "Нет связи с сервисом \n или выделена пустая строка"
 	    
 	fi
 	
